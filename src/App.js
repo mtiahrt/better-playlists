@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
-let defaultTextColor = 'blue'
 let defaultStyle = {
-  color: defaultTextColor,
-  width: "20%"
+  color: 'blue',
+  width: "60%"
 }
 class Aggregate extends Component {
   render(){
     return(
       <div style={{...defaultStyle, display: 'inline-block'}}>
-        <h2 style={{color: defaultTextColor}}>Number Text</h2>
+        <h2>Number Text</h2>
       </div>
     );
   }
@@ -46,9 +44,8 @@ class Playlist extends Component {
 class App extends Component {
   render() {
     let name = 'Mark Tiahrt and Tiffany Tiahrt'
-    let styleHeader = {color: defaultTextColor, 'font-size': '15px'}
     return (
-      <div style={styleHeader} className="App">
+      <div style={defaultStyle} className="App">
         <h1>Title</h1>
         <Aggregate/>
         <Aggregate/>
