@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -30,4 +31,8 @@
 h1 {
   font-size: 43px;
   color: blueviolet;
+}
+
+body {
+  background-color: lightgray;
 }
