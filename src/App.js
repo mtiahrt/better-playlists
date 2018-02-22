@@ -59,7 +59,12 @@ class PlaylistCounter extends Component {
 
 class HoursCounter extends Component {
   render(){
-    let totalDuration = 0;
+    let allSongs = this.props.playlists.reduce((songs, eachPlaylist)=> {
+      return songs.concat(eachPlaylist.songs)
+    } , [])
+    let totalDuration = allSongs.reduce((sum, eashSong) => {
+      return sum + eashSong.duration
+    }, 0);
     return(
       <div style={{...defaultStyle, display: 'inline-block'}}>
         <h2>{totalDuration} Hours
