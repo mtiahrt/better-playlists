@@ -89,7 +89,6 @@ class App extends Component {
     }).then((response) => response.json())
       .then(data => this.setState({
           playlists: data.items.map(item => {
-            console.log(data.items);
             return {
             name: item.name,
             imageUrl: item.images[0].url,
