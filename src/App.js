@@ -130,6 +130,7 @@ class App extends Component {
           }
             style={{... defaultStyle, padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
         } 
+        
       </div>
     );
   }
