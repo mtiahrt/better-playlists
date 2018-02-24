@@ -123,8 +123,12 @@ class App extends Component {
               </div>
             }
 
-          </div> : <button onClick={() =>window.location = 'http://localhost:8888/login' }
-                    style={{... defaultStyle, padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
+          </div> : <button onClick={() => {
+            window.location = window.location.includes('localhost')
+              ? 'http://localhost:8888/login' 
+              : 'https://better-playlists-backend-mark.herokuapp.com/login'}
+          }
+            style={{... defaultStyle, padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
         } 
       </div>
     );
