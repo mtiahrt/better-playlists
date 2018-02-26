@@ -23,6 +23,7 @@ class HoursCounter extends Component {
     let allSongs = this.props.playlists.reduce((songs, eachPlaylist)=> {
       return songs.concat(eachPlaylist.songs)
     } , [])
+    console.log('i just added this!!')
     let totalDuration = allSongs.reduce((sum, eashSong) => {
       return sum + eashSong.duration
     }, 0);
@@ -34,6 +35,8 @@ class HoursCounter extends Component {
     );
   }
 }
+
+
 
 
 class Filter extends Component {
@@ -130,7 +133,7 @@ class App extends Component {
           }
             style={{... defaultStyle, padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
         } 
-        
+
       </div>
     );
   }
