@@ -136,10 +136,13 @@ class App extends Component {
     let filteredPlaylistToRender = 
     this.state.user &&
     this.state.playlists
-      ? this.state.playlists.filter(playlist =>
-        playlist.name.toLowerCase().includes(
-          this.state.filterString.toLowerCase())
-        ) : []
+      ? this.state.playlists.filter(playlist => {
+        let matchesPlaylist = playlist.name.toLowerCase()
+        .includes(this.state.filterString.toLowerCase())
+        let matchsSongs = playlist.songs.find(song => song.name.toLowerCase()
+          .includes(this.state.filterString.toLowerCase()))
+        return matchesPlaylist || matchsSongs
+      }) : []
     return (
       <div className="App">
         {this.state.user ?
