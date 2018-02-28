@@ -23,10 +23,10 @@ class HoursCounter extends Component {
     let allSongs = this.props.playlists.reduce((songs, eachPlaylist)=> {
       return songs.concat(eachPlaylist.songs)
     } , [])
-    console.log('i just added this!!')
     let totalDuration = allSongs.reduce((sum, eashSong) => {
       return sum + eashSong.duration
-    }, 0);
+    }, 0) / 3600;
+    totalDuration = totalDuration.toFixed(2)
     return(
       <div style={{...defaultStyle, display: 'inline-block'}}>
         <h2>{totalDuration} Hours
@@ -90,12 +90,42 @@ class App extends Component {
     fetch('https://api.spotify.com/v1/me/playlists',{
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then((response) => response.json())
-      .then(data => this.setState({
-          playlists: data.items.map(item => {
+      .then(playlistData => {
+        // map returns a array of promises
+        let playlists = playlistData.items
+        let trackDataPromises = playlists.map(playlist => {
+          let responsePromise = fetch(playlist.tracks.href, {
+            headers: {'Authorization': 'Bearer ' + accessToken}
+            // get the json from each of the responses
+          })
+          let trackDataPromise = responsePromise
+          .then(response => response.json())
+        return trackDataPromise
+      })
+      let allTracksDatasPromises =
+         Promise.all(trackDataPromises)
+        let playlistsPromise = allTracksDatasPromises.then(trackDatas => {
+          trackDatas.forEach((trackData, i) => {
+              playlists[i].trackDatas = trackData.items
+              .map(item => item.track)
+              .map(trackData => ({
+                name: trackData.name,
+                duration: trackData.duration_ms / 1000
+              }))
+        })
+            return playlists
+          })
+          return playlistsPromise
+        })
+      .then(playlists => this.setState({
+          playlists: playlists.map(item => {
             return {
             name: item.name,
             imageUrl: item.images[0].url,
-            songs: []
+            songs: item.trackDatas.slice(0,3).map(trackData => ({
+              name: trackData.name,
+              duration: trackData.duration
+            }))
           }
           })
         }
