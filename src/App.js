@@ -3,14 +3,27 @@ import './App.css';
 import queryString from 'query-string';
 
 let defaultStyle = {
-  color: 'blue',
-  width: "20%"
+  color: 'white',
+  'font-family': 'Lucida Calligraphy Italic',
+  'font-size': '17px'
 }
+let counterStyle = {...defaultStyle,
+  width: "40%",
+  display: 'inline-block',
+  'margin-bottom': '20px',
+  'font-size': '20px',
+  'line-height': '30px'
+}
+function isEven(number){
+  return number % 2
+}
+
 
 class PlaylistCounter extends Component {
   render(){
+    let playlistCounterStyle = counterStyle
     return(
-      <div style={{...defaultStyle, display: 'inline-block'}}>
+      <div style={playlistCounterStyle}>
         <h2>{this.props.playlists.length} playlists
         </h2>
       </div>
@@ -27,8 +40,14 @@ class HoursCounter extends Component {
       return sum + eashSong.duration
     }, 0) / 3600;
     totalDuration = totalDuration.toFixed(2)
+    let isTooLow = totalDuration < 1
+    let hoursCounterStyle = {...counterStyle,
+        color: isTooLow ? 'red': 'white',
+        'font-weight': isTooLow ? 'bold': 'normal'
+      }
+
     return(
-      <div style={{...defaultStyle, display: 'inline-block'}}>
+      <div style={hoursCounterStyle}>
         <h2>{totalDuration} Hours
         </h2>
       </div>
@@ -36,16 +55,18 @@ class HoursCounter extends Component {
   }
 }
 
-
-
-
 class Filter extends Component {
   render() {
     return(
     <div>
       <img/>
       <input type="text" onKeyUp= {event => 
-        this.props.onTextChange(event.target.value)}/>
+        this.props.onTextChange(event.target.value)}
+        style={{...defaultStyle,
+        'color': 'black',
+        'margin-bottom': '20px',
+        'font-size': '20px',
+        'padding': '5px'}}/>
     </div>
     )
   };
@@ -54,12 +75,19 @@ class Filter extends Component {
 class Playlist extends Component {
   render() {
     return(
-      <div style={{...defaultStyle, width: "25%", display: "inline-block"}}>
+      <div style={{...defaultStyle, 
+                  width: "25%", 
+                  display: "inline-block",
+                  padding: '10px',
+                  'background-color': isEven(this.props.index) 
+                    ? '#C0C0C0'
+                    : '#808080'}}>
         <img src={this.props.playlist.imageUrl} style={{width: '120px'}} />
         <h3>{this.props.playlist.name}</h3>
-        <ul>
+        <ul style={{'margin-top': '10px',
+                    'font-weight': 'bold'}}>
           {this.props.playlist.songs.map(song =>
-            <li>{song.name}</li>)}
+            <li style={{'padding-top': '2px'}}>{song.name}</li>)}
         </ul>
       </div>
     );
@@ -153,8 +181,8 @@ class App extends Component {
                 <PlaylistCounter playlists={filteredPlaylistToRender}/>
                 <HoursCounter playlists={filteredPlaylistToRender}/>
                 <Filter onTextChange={text => this.setState({filterString: text})}/>
-                {filteredPlaylistToRender.map(playlist => 
-                    <Playlist playlist={playlist}/> 
+                {filteredPlaylistToRender.map((playlist, i) => 
+                    <Playlist playlist={playlist} index={i}/> 
               )}
               </div>
             }
