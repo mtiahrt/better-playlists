@@ -4,18 +4,24 @@ import queryString from 'query-string';
 
 let defaultStyle = {
   color: 'white',
-  'font-family': 'Lucida Calligraphy Italic',
-  'font-size': '17px'
+  fontFamily: 'Lucida Calligraphy Italic',
+  fontSize: '17px'
 }
 let counterStyle = {...defaultStyle,
   width: "40%",
   display: 'inline-block',
-  'margin-bottom': '20px',
-  'font-size': '20px',
-  'line-height': '30px'
+  marginBottom: '20px',
+  fontSize: '20px',
+  lineHeight: '30px'
 }
 function isEven(number){
   return number % 2
+}
+
+function getNewToken(){
+  window.location = window.location.href.includes('localhost')
+  ? 'http://localhost:8888/login' 
+  : 'https://better-playlists-backend-mark.herokuapp.com/login'
 }
 
 
@@ -43,7 +49,7 @@ class HoursCounter extends Component {
     let isTooLow = totalDuration < 1
     let hoursCounterStyle = {...counterStyle,
         color: isTooLow ? 'red': 'white',
-        'font-weight': isTooLow ? 'bold': 'normal'
+        fontWeight: isTooLow ? 'bold': 'normal'
       }
 
     return(
@@ -63,31 +69,32 @@ class Filter extends Component {
       <input type="text" onKeyUp= {event => 
         this.props.onTextChange(event.target.value)}
         style={{...defaultStyle,
-        'color': 'black',
-        'margin-bottom': '20px',
-        'font-size': '20px',
-        'padding': '5px'}}/>
+        color: 'black',
+        marginBottom: '20px',
+        fontSize: '20px',
+        padding: '5px'}}/>
     </div>
     )
   };
 }
 
 class Playlist extends Component {
+
   render() {
     return(
       <div style={{...defaultStyle, 
                   width: "25%", 
                   display: "inline-block",
                   padding: '10px',
-                  'background-color': isEven(this.props.index) 
+                  backgroundColor: isEven(this.props.index) 
                     ? '#C0C0C0'
                     : '#808080'}}>
         <img src={this.props.playlist.imageUrl} style={{width: '120px'}} />
         <h3>{this.props.playlist.name}</h3>
-        <ul style={{'margin-top': '10px',
-                    'font-weight': 'bold'}}>
+        <ul style={{marginTop: '10px',
+                    fontWeight: 'bold'}}>
           {this.props.playlist.songs.map(song =>
-            <li style={{'padding-top': '2px'}}>{song.name}</li>)}
+            <li style={{paddingTop: '2px'}}>{song.name}</li>)}
         </ul>
       </div>
     );
@@ -107,7 +114,15 @@ class App extends Component {
     // get user name
     fetch('https://api.spotify.com/v1/me',{
       headers: {'Authorization': 'Bearer ' + accessToken}
-    }).then(response => response.json())
+    }).then(response => {
+      if (!response.ok){
+        console.log("response failed.  getting new token")
+        getNewToken();
+      }else{
+        return response
+      }
+    })
+      .then(response => response.json())
       .then(data => this.setState({
         user: {
           name: data.display_name
@@ -188,9 +203,7 @@ class App extends Component {
             }
 
           </div> : <button onClick={() => {
-            window.location = window.location.href.includes('localhost')
-              ? 'http://localhost:8888/login' 
-              : 'https://better-playlists-backend-mark.herokuapp.com/login'}
+            getNewToken();}
           }
             style={{... defaultStyle, padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
         } 
