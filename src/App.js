@@ -115,8 +115,7 @@ class App extends Component {
     fetch('https://api.spotify.com/v1/me',{
       headers: {'Authorization': 'Bearer ' + accessToken}
     }).then(response => {
-      if (!response.ok){
-        console.log("response failed.  getting new token")
+      if (response.statusText === 'Unauthorized'){
         getNewToken();
       }else{
         return response
