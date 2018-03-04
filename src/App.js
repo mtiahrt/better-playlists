@@ -204,7 +204,7 @@ class App extends Component {
           </div> : <button onClick={() => {
             getNewToken();}
           }
-            style={{... defaultStyle, padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
+            style={{... defaultStyle, color: 'black', padding: '10px', marginTop: '250px'}}>Sign in to Spotify</button>
         } 
 
       </div>
