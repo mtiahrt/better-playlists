@@ -11,14 +11,6 @@ let defaultStyle = {
   fontSize: '17px'
 }
 
-// let counterStyle = {...defaultStyle,
-//   width: "40%",
-//   display: 'inline-block',
-//   marginBottom: '20px',
-//   fontSize: '20px',
-//   lineHeight: '30px'
-// }
-
 function isEven(number){
   return number % 2
 }
@@ -28,43 +20,6 @@ function getNewToken(){
   ? 'http://localhost:8888/login' 
   : 'https://better-playlists-backend-mark.herokuapp.com/login'
 }
-
-
-// class PlaylistCounter extends Component {
-//   render(){
-//     let playlistCounterStyle = counterStyle
-//     return(
-//       <div style={playlistCounterStyle}>
-//         <h2>{this.props.playlists.length} playlists
-//         </h2>
-//       </div>
-//     );
-//   }
-// }
-
-// class HoursCounter extends Component {
-//   render(){
-//     let allSongs = this.props.playlists.reduce((songs, eachPlaylist)=> {
-//       return songs.concat(eachPlaylist.songs)
-//     } , [])
-//     let totalDuration = allSongs.reduce((sum, eashSong) => {
-//       return sum + eashSong.duration
-//     }, 0) / 3600;
-//     totalDuration = totalDuration.toFixed(2)
-//     let isTooLow = totalDuration < 1
-//     let hoursCounterStyle = {...counterStyle,
-//         color: isTooLow ? 'red': 'white',
-//         fontWeight: isTooLow ? 'bold': 'normal'
-//       }
-
-//     return(
-//       <div style={hoursCounterStyle}>
-//         <h2>{totalDuration} Hours
-//         </h2>
-//       </div>
-//     );
-//   }
-// }
 
 class Filter extends Component {
   render() {
